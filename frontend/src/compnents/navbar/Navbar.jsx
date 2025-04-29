@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-
 import Loader from "react-js-loader";
+import DemoModal from '../common/DemoModal';
 
 const Navbar = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false); 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [showDemoModal, setShowDemoModal] = useState(false);
   const navigate = useNavigate();
   const user = localStorage.getItem('tokenUser');
 
@@ -38,6 +39,7 @@ const Navbar = () => {
       console.error('Error logging out:', err);
     }
   };
+  
   const handleDelete = () => {
     // Show delete modal
     setShowDeleteModal(true);
@@ -64,15 +66,24 @@ const Navbar = () => {
     setShowDeleteModal(false);
   };
 
+  const handleDemoFeature = (e) => {
+    e.preventDefault();
+    setShowDemoModal(true);
+  };
+
+  const closeDemoModal = () => {
+    setShowDemoModal(false);
+  };
+
   return (
     
-    <div className="bg-white w-full z-50 shadow-lg">
-      <header className="absolute inset-x-0 top-0 z-50">
-        <nav className="flex items-center justify-between p-6 lg:px-8" aria-label="Global">
+    <div className="bg-white w-full z-50 shadow-lg pb-0">
+      <header className="relative inset-x-0 top-0 z-50">
+        <nav className="flex items-center justify-between p-3 lg:px-6" aria-label="Global">
           <div className="flex lg:flex-1">
-            <a href="/" className="-m-1.5 p-1.5">
-              <span className="sr-only">Your Company</span>
-              <img className="h-8 w-auto" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSQZrRgwuKA5JrFS4glBVgzvmPDhhPjWrObr-D01xeKZQ&s" alt="Your Company" />
+            <a href="/" className="-m-1 p-1">
+              <span className="sr-only">KOI App</span>
+              <img className="h-16 w-auto rounded-md object-cover" src="/images/koi-logo.jpeg" alt="KOI Logo" />
             </a>
           </div>
           <div className="flex lg:hidden">
@@ -88,11 +99,13 @@ const Navbar = () => {
             </button>
           </div>
           <div className="hidden lg:flex lg:gap-x-12">
-            <a href={`/${user}/mood`} className="text-sm font-semibold leading-6 text-gray-900">Mood Tracker</a>
-            <a href={`/${user}/therapist`} className="text-sm font-semibold leading-6 text-gray-900">AI Therapist</a>
-            <a href={`/${user}/quiz`} className="text-sm font-semibold leading-6 text-gray-900">Quiz</a>
-            <a href={`/${user}/anonymoussharing`} className="text-sm font-semibold leading-6 text-gray-900">Anonymous Sharing</a>
+            <a href="/" className="text-sm font-semibold leading-6 text-gray-900">Home</a>
             <a href="/aboutus" className="text-sm font-semibold leading-6 text-gray-900">About Us</a>
+            <a href={`/${user}/crashoutcycle`} className="text-sm font-semibold leading-6 text-gray-900">KOI Cycle</a>
+            <a href="#" onClick={handleDemoFeature} className="text-sm font-semibold leading-6 text-gray-900">Mood Tracker</a>
+            <a href="#" onClick={handleDemoFeature} className="text-sm font-semibold leading-6 text-gray-900">AI Therapist</a>
+            <a href="#" onClick={handleDemoFeature} className="text-sm font-semibold leading-6 text-gray-900">Quiz</a>
+            <a href="#" onClick={handleDemoFeature} className="text-sm font-semibold leading-6 text-gray-900">Anonymous Sharing</a>
           </div>
           <div className="hidden lg:flex lg:flex-1 lg:justify-end">
             {isLoggedIn ? (
@@ -120,20 +133,25 @@ const Navbar = () => {
                 )}
               </div>
             ) : (
-              <a href="/login" className="text-sm font-semibold leading-6 text-gray-900">
-                Login <span aria-hidden="true">→</span>
-              </a>
+              <div className="flex items-center space-x-4">
+                <a href="/demo/crashoutcycle" className="text-sm font-semibold leading-6 text-blue-600 hover:text-blue-800">
+                  Try KOI Cycle
+                </a>
+                <a href="#" onClick={handleDemoFeature} className="text-sm font-semibold leading-6 text-gray-900">
+                  Login <span aria-hidden="true">→</span>
+                </a>
+              </div>
             )}
           </div>
         </nav>
         {mobileMenuOpen && (
           <div className="lg:hidden" role="dialog" aria-modal="true">
             <div className="fixed inset-0 z-50"></div>
-            <div className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
+            <div className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white px-6 py-4 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
               <div className="flex items-center justify-between">
                 <a href="#" className="-m-1.5 p-1.5">
-                  <span className="sr-only">Your Company</span>
-                  <img className="h-8 w-auto" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSQZrRgwuKA5JrFS4glBVgzvmPDhhPjWrObr-D01xeKZQ&s" alt="Your Company" />
+                  <span className="sr-only">KOI App</span>
+                  <img className="h-16 w-auto rounded-md object-cover" src="/images/koi-logo.jpeg" alt="KOI Logo" />
                 </a>
                 <button
                   type="button"
@@ -146,17 +164,18 @@ const Navbar = () => {
                   </svg>
                 </button>
               </div>
-              <div className="mt-6 flow-root">
-                <div className="-my-6 divide-y divide-gray-500/10">
-                  <div className="space-y-2 py-6">
-
-                    <a href={`/${user}/mood`} className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Mood Tracker</a>
-                    <a href={`/${user}/therapist`} className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">AI Therapist</a>
-                    <a href={`/${user}/quiz`} className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Quiz</a>
-                    <a href={`/${user}/anonymoussharing`} className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Anonymous Sharing</a>
+              <div className="mt-4 flow-root">
+                <div className="-my-4 divide-y divide-gray-500/10">
+                  <div className="space-y-2 py-4">
+                    <a href="/" className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Home</a>
                     <a href="/aboutus" className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">About Us</a>
+                    <a href={`/${user}/crashoutcycle`} className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">KOI Cycle</a>
+                    <a href="#" onClick={handleDemoFeature} className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Mood Tracker</a>
+                    <a href="#" onClick={handleDemoFeature} className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">AI Therapist</a>
+                    <a href="#" onClick={handleDemoFeature} className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Quiz</a>
+                    <a href="#" onClick={handleDemoFeature} className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Anonymous Sharing</a>
                   </div>
-                  <div className="py-6">
+                  <div className="py-4">
                     {isLoggedIn ? (
                       <div className="relative">
                         <button
@@ -175,14 +194,19 @@ const Navbar = () => {
                           <div className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button-mobile" tabIndex="-1">
                             <a href={`/${user}/profile`} className="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabIndex="-1" id="user-menu-item-0-mobile">Your Profile</a>
                             <a onClick={(e) => handleLogout(e)} href="#" className="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabIndex="-1" id="user-menu-item-2">Sign out</a>
-                    <a onClick={handleDelete} href="#" className="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabIndex="-1" id="user-menu-item-2">Delete Profile</a>
+                            <a onClick={handleDelete} href="#" className="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabIndex="-1" id="user-menu-item-2">Delete Profile</a>
                           </div>
                         )}
                       </div>
                     ) : (
-                      <a href="/login" className="text-sm font-semibold leading-6 text-gray-900">
-                        Login <span aria-hidden="true">→</span>
-                      </a>
+                      <div className="flex flex-col space-y-2">
+                        <a href="/demo/crashoutcycle" className="text-sm font-semibold leading-6 text-blue-600 hover:text-blue-800">
+                          Try KOI Cycle
+                        </a>
+                        <a href="#" onClick={handleDemoFeature} className="text-sm font-semibold leading-6 text-gray-900">
+                          Login <span aria-hidden="true">→</span>
+                        </a>
+                      </div>
                     )}
                   </div>
                 </div>
@@ -226,6 +250,9 @@ const Navbar = () => {
           </div>
         </div>
       )}
+
+      {/* Demo Features Modal */}
+      <DemoModal isOpen={showDemoModal} onClose={closeDemoModal} />
     </div>
 
   );

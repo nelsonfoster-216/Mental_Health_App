@@ -9,6 +9,7 @@ import cookieParser from 'cookie-parser';
 import session from 'express-session';
 import passport from 'passport';
 import userRoutes from './routes/route.js';
+import cycleLogRoutes from './routes/cycleLogRoutes.js';
 import Connection from './database/db.js';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -48,6 +49,7 @@ app.use('/upload1', express.static(path.join(__dirname, 'upload1')));
 
 Connection();
 app.use('/', userRoutes);
+app.use('/api', cycleLogRoutes);
 
 const port = process.env.PORT || 4000;
 

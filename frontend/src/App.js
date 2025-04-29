@@ -1,5 +1,5 @@
-import React from 'react';
-import {BrowserRouter, Routes, Route, Navigate, useParams} from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import {BrowserRouter, Routes, Route, Navigate, useParams, useLocation, useNavigate} from 'react-router-dom';
 import Navbar from './compnents/navbar/Navbar';
 import Home from './compnents/home/Home';
 import Profile from './compnents/profile/Profile';
@@ -19,12 +19,51 @@ import MoodTrack from './compnents/moodtrack/MoodTrack.jsx';
 import Quiz from './compnents/quiz/Quiz.jsx';
 import UpdateJournal from './compnents/journal/Updatejournal.jsx';
 import Therapist from './compnents/AITherapist/Therapist.jsx';
+import CrashOutCycle from './compnents/crashOutCycle/CrashOutCycle.jsx';
+import DemoModal from './compnents/common/DemoModal';
+
+// Component to handle redirecting from disabled features
+const RedirectWithModal = () => {
+  const navigate = useNavigate();
+  const [showModal, setShowModal] = useState(true);
+  
+  const closeModal = () => {
+    setShowModal(false);
+    navigate('/');
+  };
+  
+  return (
+    <>
+      <DemoModal isOpen={showModal} onClose={closeModal} />
+    </>
+  );
+};
 
 const PrivateRoute = ({ children }) => {
   const { username: usernameFromUrl } = useParams(); // Extract username from URL
   const token = localStorage.getItem('token');
   const usernameFromStorage = localStorage.getItem('tokenUser');
+  const location = useLocation();
+  
+  // Check if this is a disabled feature path
+  const disabledFeatures = ['/mood', '/therapist', '/quiz', '/anonymoussharing', '/createanonymouspost', '/allanonymousposts'];
+  const isDisabledFeature = disabledFeatures.some(path => location.pathname.includes(path));
+  
+  // For demo purposes, allow access to the KOI cycle component
+  if (children.type === CrashOutCycle) {
+    // If not logged in, set demo user
+    if (!token) {
+      localStorage.setItem('tokenUser', 'demo-user');
+    }
+    return children;
+  }
+  
+  // For disabled features, redirect to the RedirectWithModal component
+  if (isDisabledFeature) {
+    return <RedirectWithModal />;
+  }
 
+  // Normal authentication for other components
   if (!token || usernameFromUrl !== usernameFromStorage) {
     localStorage.removeItem('token');
     localStorage.removeItem('tokenUser');
@@ -41,7 +80,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/:username/profile" element={<PrivateRoute><Profile /></PrivateRoute>} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/login" element={<Login />} />
+        <Route path="/login" element={<RedirectWithModal />} />
         <Route path="/unauthorizedAccess" element={<NoAccess />} />
         <Route path="/:username/updateprofile" element={<PrivateRoute><ProfileUpdate /></PrivateRoute>} />
         <Route path="/:username/anonymoussharing" element={<PrivateRoute><AnonymousSharing /></PrivateRoute>} />
@@ -50,10 +89,10 @@ function App() {
         <Route path="/:username/mood" element={<PrivateRoute><MoodTrack /></PrivateRoute>} />
         <Route path="/:username/quiz" element={<PrivateRoute><Quiz /></PrivateRoute>} />
         <Route path="/:username/therapist" element={<PrivateRoute><Therapist /></PrivateRoute>} />
+        <Route path="/:username/crashoutcycle" element={<PrivateRoute><CrashOutCycle /></PrivateRoute>} />
+        <Route path="/demo/crashoutcycle" element={<CrashOutCycle />} />
         <Route path="/aboutus" element={<AboutUs />} />
         
-
-
         <Route path='/:username/createjournal' element={<PrivateRoute><Createjournal /></PrivateRoute>} />
         <Route path='/:username/readjournals' element={<PrivateRoute><Readjournal /></PrivateRoute>} />
         <Route path='/:username/readjournals/:id' element={<PrivateRoute><JournalDetail /></PrivateRoute>} />

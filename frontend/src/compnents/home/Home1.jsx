@@ -2,7 +2,7 @@ import React from 'react'
 
 const Home1 = () => {
   return (
-    <div className="relative isolate px-6 pt-14 lg:px-8 ">
+    <div className="relative isolate px-6 pt-6 lg:px-8">
         <div
           className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
           aria-hidden="true"
@@ -15,18 +15,21 @@ const Home1 = () => {
             }}
           />
         </div>
-        <div className="mx-auto max-w-2xl py-32 sm:py-48 lg:py-56">
-          <div className="hidden sm:mb-8 sm:flex sm:justify-center">
+        <div className="mx-auto max-w-2xl py-16 sm:py-24 lg:py-28">
+          <div className="hidden sm:mb-4 sm:flex sm:justify-center">
 
           </div>
-          <div className="text-center -mt-24">
+          <div className="text-center -mt-12">
             <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
-              Welcome to Mindfulness.
+              Welcome to Mindfulness<span className="text-sm align-top">*</span>
             </h1>
-            <p className="mt-6 text-lg leading-8 text-gray-600">
-            Welcome to our mental health app, where you can anonymously chat, track your mood, and receive personalized support through quizzes and an AI assistant. Prioritize your emotional well-being discreetly and effectively with our compassionate community.
+            <p className="mt-4 text-lg leading-8 text-gray-600">
+              <span className="text-sm font-medium text-gray-500">*Well, sort of.</span> Borne of a meme and a discussion about the unprecedented challenges of the times, and the resultant cycles of high productivity and low, powering through and doomscrolling, this app was created as a lighthearted way to help assess how much time you are spending "locked in" versus "crashed out."
             </p>
-            <div className="mt-10 flex items-center justify-center gap-x-6">
+            <p className="mt-2 text-sm leading-6 text-gray-500 italic">
+              *NOTE: This app is for entertainment purposes only. If you are experiencing difficulty, please scroll to the bottom of this page for actual mental health resources. Hang in there. We're going to get through it, together.
+            </p>
+            <div className="mt-6 flex items-center justify-center gap-x-6">
               
               <a href="/aboutus" className="text-sm font-semibold leading-6 text-gray-900">
                 About Us <span aria-hidden="true">→</span>
