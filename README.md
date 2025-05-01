@@ -7,7 +7,9 @@
 
 ## Overview
 
-KOI (Krash Out Index) Cycle Tracker is a web application designed to help users monitor and manage their mental health cycles. It allows users to track their oscillation between two critical mental states: "CRASH OUT" (low energy, disengaged) and "LOCK IN" (high focus, productive) modes. The application provides a simple visual interface for logging state changes, with intensity ratings and optional notes, while generating statistics to help users understand their patterns.
+KOI* (Krash Out Index)* Cycle Tracker is a web application designed to help users monitor and manage their mental health cycles. It allows users to track their oscillation between two critical mental states: "CRASH OUT" (low energy, disengaged) and "LOCK IN" (high focus, productive) modes. The application provides a simple visual interface for logging state changes, with intensity ratings and optional notes, while generating statistics to help users understand their patterns.
+
+*NOTE! This app is for entertainment purposes only. 
 
 ## Table of Contents
 
